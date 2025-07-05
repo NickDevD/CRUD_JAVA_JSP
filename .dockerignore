@@ -1,0 +1,15 @@
+# .dockerignore
+# Exclui pastas e arquivos que não precisam ser copiados para o contexto de build do Docker.
+# Isso torna o build mais rápido e a imagem final menor.
+
+.git/
+.idea/
+.vscode/
+nbproject/
+dist/
+# Não exclua 'build/' aqui, pois o Dockerfile precisa copiar de 'build/web/'
+# Se você tiver outros arquivos grandes temporários ou de IDE, adicione-os aqui.
+*.log
+*.swp
+*.bak
+*.tmp

@@ -1,0 +1,28 @@
+
+services:
+  web-app:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+    restart: on-failure
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: crud-mysql-database
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin         # Define a senha para o 'root' do MySQL
+      MYSQL_DATABASE: controleclientes   # Opcional, cria o DB
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql_data:

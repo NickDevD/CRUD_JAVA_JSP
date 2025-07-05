@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cadastro de Clientes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="cadclistyle.css">
+    </head>
+    <body>
+        <form method="post" action="cadastrar.jsp">
+            <p>
+                <label for="cpf"> CPF </label>
+                <input type="text" name="cpf" size="15" id="cpf" maxlength="15">
+            </p>
+            <p>
+                <label for="nome"> Nome </label>
+                <input type="text" name="nome" size="55" id="nome" maxlength="55">
+            </p>
+            <p>
+                <label for="endereco"> Endereço </label>
+                <input type="text" name="endereco" size="55" id="endereco" maxlength="55">
+            </p>
+            <p>
+                <label for="telefone"> Telefone </label>
+                <input type="tel" name="telefone" size="15" id="telefone" maxlength="15">
+            </p>
+            <p>
+               <input type="submit" value="Salvar"> 
+            </p>            
+        </form>
+    </body> 
+</html>
