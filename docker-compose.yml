@@ -1,28 +1,46 @@
+version: '3.8'
 
 services:
   web-app:
-    build: .
+    build: . # Constrói a imagem a partir do seu Dockerfile no diretório atual
     ports:
-      - "8081:8080"
+      - "8081:8080" # Mapeia a porta 8080 do contêiner (Tomcat) para a 8081 do seu host
     environment:
-      DB_HOST: mysql-db
-      DB_PORT: 3306
+      # >>> ESSAS SÃO AS VARIÁVEIS QUE SUA APLICAÇÃO JSP DEVE LER <<<
+      # Altere seu código JSP/Servlet/DataSource para ler estas variáveis
+      MYSQL_CONNECTION_URI: jdbc:mysql://mysql-db:3306/controleclientes # Use o nome do serviço 'mysql-db' como hostname
+      MYSQL_USER: root
+      MYSQL_PASSWORD: admin # A senha que sua JSP usará para conectar ao DB
+      # As variáveis DB_HOST e DB_PORT não são lidas pelo driver JDBC diretamente,
+      # elas seriam redundantes se você usa MYSQL_CONNECTION_URI completa.
+      # DB_HOST: mysql-db
+      # DB_PORT: 3306
     restart: on-failure
     depends_on:
-      - mysql-db
+      mysql-db:
+        # >>> CRUCIAL: Garante que o 'mysql-db' esteja saudável antes do 'web-app' iniciar <<<
+        condition: service_healthy
 
   mysql-db:
     image: mysql:8.0
     container_name: crud-mysql-database
     ports:
-      - "3308:3306"
+      - "3308:3306" # Mapeia a porta 3306 do contêiner para a 3308 do seu host
     environment:
-      MYSQL_ROOT_PASSWORD: admin         # Define a senha para o 'root' do MySQL
-      MYSQL_DATABASE: controleclientes   # Opcional, cria o DB
-
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: controleclientes # Garante que este banco de dados seja criado na inicialização
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql # Persiste os dados do MySQL
+      # >>> ESSA LINHA É CRÍTICA para a nova máquina <<<
+      - ./db_init:/docker-entrypoint-initdb.d # Monta o diretório com seu init.sql para inicializar o DB
     restart: always
+    # >>> CRUCIAL: Healthcheck para o MySQL <<<
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s     # Verifica a cada 5 segundos
+      timeout: 10s     # Espera 10 segundos pela resposta
+      retries: 5       # Tenta 5 vezes antes de declarar como 'unhealthy'
+      start_period: 30s # Dá 30 segundos para o MySQL inicializar antes de começar os testes
 
 volumes:
-  mysql_data:
+  mysql_data: # Define o volume nomeado para os dados do MySQL
