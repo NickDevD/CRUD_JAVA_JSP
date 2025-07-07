@@ -1,10 +1,11 @@
 version: '3.8'
 
 services:
-  web-app:
+  java-web:
     build: . # Constrói a imagem a partir do seu Dockerfile no diretório atual
+    container_name: java-web-jsp
     ports:
-      - "8081:8080" # Mapeia a porta 8080 do contêiner (Tomcat) para a 8081 do seu host
+      - "8081:8080"
     environment:
       # >>> ESSAS SÃO AS VARIÁVEIS QUE SUA APLICAÇÃO JSP DEVE LER <<<
       # Altere seu código JSP/Servlet/DataSource para ler estas variáveis
@@ -23,7 +24,7 @@ services:
 
   mysql-db:
     image: mysql:8.0
-    container_name: crud-mysql-database
+    container_name: crud-mysql
     ports:
       - "3308:3306" # Mapeia a porta 3306 do contêiner para a 3308 do seu host
     environment:
