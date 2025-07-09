@@ -66,7 +66,7 @@ Siga estes passos para configurar e executar a aplicação:
 
 - Faça o download do repositório: 
 
-Bash
+- Bash
 git clone https://github.com/NickDevD/CRUD_JAVA_JSP.git
 cd CRUD_JAVA_JSP 
 
@@ -78,38 +78,39 @@ O NetBeans foi utilizado no desenvolvimento e a estrutura do projeto foi otimiza
 Gere o arquivo WAR da aplicação:
 Este projeto usa Apache Ant para o build. Você precisará gerar o arquivo .war (Web Archive) que será implantado no Tomcat dentro do Docker.
 
-Bash
-
+- Bash
+```
 ant clean build
+```
 Este comando irá compilar o código e criar o arquivo .war (ex: formulario_web.war) dentro da pasta dist/.
 
 Remova volumes Docker armazenados (Crucial para inicialização do DB):
 Este passo garante que o banco de dados MySQL seja inicializado do zero, executando o script db_init/init.sql e criando a tabela clientes.
 
-Bash
-
+- Bash
+```
 docker-compose down -v
-down: Para os serviços e remove os contêineres.
+```
+- down: Para os serviços e remove os contêineres.
+- -v: Remove os volumes de dados nomeados, o que é essencial para limpar o estado anterior do banco de dados e forçar o init.sql a ser executado na próxima subida.
 
--v: Remove os volumes de dados nomeados, o que é essencial para limpar o estado anterior do banco de dados e forçar o init.sql a ser executado na próxima subida.
+# Construa as imagens e execute a aplicação:
 
-Construa as imagens e execute a aplicação:
-
-Bash
-
+- Bash
+```
 docker-compose up --build -d
-up: Inicia os serviços definidos no docker-compose.yml.
+```
 
---build: Garante que a imagem da sua aplicação (web-app) seja reconstruída com o .war mais recente.
-
--d: Inicia os serviços em modo detached (segundo plano), liberando seu terminal.
+ - up: Inicia os serviços definidos no docker-compose.yml.
+ - --build: Garante que a imagem da sua aplicação (web-app) seja reconstruída com o .war mais recente.
+ - -d: Inicia os serviços em modo detached (segundo plano), liberando seu terminal.
 
 Observação: O serviço mysql-db possui um healthcheck e o web-app depende dele, garantindo que o banco de dados esteja pronto antes da aplicação web iniciar.
 
 Acesse a aplicação:
 Após alguns instantes para os contêineres iniciarem, abra seu navegador e acesse:
 
-http://localhost:8081/
+Link: http://localhost:8081/
 
 # Estrutura do Projeto
 
