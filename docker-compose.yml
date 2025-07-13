@@ -11,11 +11,7 @@ services:
       # Altere seu código JSP/Servlet/DataSource para ler estas variáveis
       MYSQL_CONNECTION_URI: jdbc:mysql://mysql-db:3306/controleclientes # Use o nome do serviço 'mysql-db' como hostname
       MYSQL_USER: root
-      MYSQL_PASSWORD: admin # A senha que sua JSP usará para conectar ao DB
-      # As variáveis DB_HOST e DB_PORT não são lidas pelo driver JDBC diretamente,
-      # elas seriam redundantes se você usa MYSQL_CONNECTION_URI completa.
-      # DB_HOST: mysql-db
-      # DB_PORT: 3306
+      MYSQL_PASSWORD: admin
     restart: on-failure
     depends_on:
       mysql-db:

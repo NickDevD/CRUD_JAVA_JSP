@@ -7,7 +7,7 @@ FROM openjdk:17-jdk-slim AS build_env
 
 WORKDIR /app
 
-# Copie TODO o conteúdo do seu projeto (incluindo 'build/') para o contêiner no estágio de build.
+# Copia todo o conteúdo do projeto (incluindo 'build/') para o contêiner no estágio de build.
 COPY . .
 
 # Estágio de Execução (imagem final mais leve com Tomcat e JRE)
